@@ -1,0 +1,15 @@
+/target
+**/target
+node_modules/
+dist/
+*.db
+*.db-*
+.env
+.env.*
+coverage/
+lcov.info
+/fuzz/corpus
+/fuzz/artifacts
+app/src-tauri/gen/schemas
+*.ccvault
+.DS_Store

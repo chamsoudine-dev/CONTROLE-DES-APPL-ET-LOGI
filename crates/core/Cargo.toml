@@ -1,0 +1,13 @@
+[package]
+name = "cc-core"
+description = "Cœur métier de Control Center : stockage chiffré, crypto, politique, audit, sync"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+cc-license = { path = "../license" }

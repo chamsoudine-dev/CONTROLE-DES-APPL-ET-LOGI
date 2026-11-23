@@ -1,0 +1,13 @@
+[package]
+name = "cc-connectors"
+description = "Connecteurs fournisseurs de Control Center"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+cc-core = { path = "../core" }

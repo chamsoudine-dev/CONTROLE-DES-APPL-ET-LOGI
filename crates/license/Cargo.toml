@@ -1,0 +1,12 @@
+[package]
+name = "cc-license"
+description = "Génération et vérification de licences PASETO v4.public (Ed25519)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]

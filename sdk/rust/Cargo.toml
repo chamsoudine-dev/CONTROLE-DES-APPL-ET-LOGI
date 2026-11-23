@@ -1,0 +1,13 @@
+[package]
+name = "control-center-license"
+description = "SDK Rust de vérification de licences Control Center (hors ligne)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+cc-license = { path = "../../crates/license" }
