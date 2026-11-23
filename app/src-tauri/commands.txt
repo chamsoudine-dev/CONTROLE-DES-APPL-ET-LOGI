@@ -1,0 +1,32 @@
+# Commandes Tauri exposées à l'interface (une par ligne).
+# Toute commande absente de cette liste ET de capabilities/default.json est inaccessible.
+vault_status
+vault_setup
+vault_unlock
+vault_complete_totp
+vault_unlock_pin
+vault_lock
+vault_touch
+vault_reauth
+totp_begin
+totp_confirm
+totp_disable
+pin_set
+pin_remove
+passphrase_change
+autolock_set
+profile_get
+audit_list
+audit_verify
+devices_list
+github_permissions
+github_connect_token
+github_device_start
+github_device_poll
+github_repos
+github_setup_sync_repo
+github_status
+license_key_generate
+license_key_status
+license_key_backup
+license_key_restore

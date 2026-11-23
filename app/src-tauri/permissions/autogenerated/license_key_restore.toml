@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-license-key-restore"
+description = "Enables the license_key_restore command without any pre-configured scope."
+commands.allow = ["license_key_restore"]
+
+[[permission]]
+identifier = "deny-license-key-restore"
+description = "Denies the license_key_restore command without any pre-configured scope."
+commands.deny = ["license_key_restore"]

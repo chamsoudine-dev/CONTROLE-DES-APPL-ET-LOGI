@@ -1,7 +1,42 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Capabilities minimales de la fenêtre principale : uniquement les commandes de l'application.",
-  "windows": ["main"],
-  "permissions": ["core:default"]
+  "description": "Capabilities minimales de la fenêtre principale : uniquement les commandes de l'application, aucune API système libre (shell, fs, http).",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:event:allow-listen",
+    "core:event:allow-unlisten",
+    "allow-vault-status",
+    "allow-vault-setup",
+    "allow-vault-unlock",
+    "allow-vault-complete-totp",
+    "allow-vault-unlock-pin",
+    "allow-vault-lock",
+    "allow-vault-touch",
+    "allow-vault-reauth",
+    "allow-totp-begin",
+    "allow-totp-confirm",
+    "allow-totp-disable",
+    "allow-pin-set",
+    "allow-pin-remove",
+    "allow-passphrase-change",
+    "allow-autolock-set",
+    "allow-profile-get",
+    "allow-audit-list",
+    "allow-audit-verify",
+    "allow-devices-list",
+    "allow-github-permissions",
+    "allow-github-connect-token",
+    "allow-github-device-start",
+    "allow-github-device-poll",
+    "allow-github-repos",
+    "allow-github-setup-sync-repo",
+    "allow-github-status",
+    "allow-license-key-generate",
+    "allow-license-key-status",
+    "allow-license-key-backup",
+    "allow-license-key-restore"
+  ]
 }
