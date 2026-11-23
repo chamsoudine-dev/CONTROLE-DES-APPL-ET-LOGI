@@ -108,6 +108,8 @@ pub fn spawn_poller(app: AppHandle) {
             tokio::time::sleep(wait).await;
             let unlocked = app.state::<AppState>().vault.lock().is_unlocked();
             wait = if unlocked {
+                // Synchronisation chiffrée (si activée), puis suivi des dépôts.
+                let _ = crate::cmd_sync::sync_once(&app).await;
                 match poll_once(&app).await {
                     Ok(s) => Duration::from_secs(s.next_interval_secs.max(60)),
                     Err(_) => Duration::from_secs(300),

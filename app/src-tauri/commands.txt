@@ -68,3 +68,11 @@ app_status
 media_list
 media_prepare
 media_upload
+sync_status
+sync_setup
+sync_now
+sync_conflicts
+sync_resolve
+sync_pairing
+device_revoke
+sync_rotate_epoch

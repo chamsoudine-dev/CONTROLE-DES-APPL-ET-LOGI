@@ -615,6 +615,7 @@ dependencies = [
  "keyring",
  "parking_lot",
  "proptest",
+ "qrcodegen-image",
  "rand_core 0.6.4",
  "rusqlite",
  "serde",

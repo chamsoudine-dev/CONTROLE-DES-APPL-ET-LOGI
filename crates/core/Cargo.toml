@@ -33,6 +33,7 @@ time = { version = "0.3", features = ["formatting", "parsing", "serde", "macros"
 uuid = { version = "1", features = ["v4", "serde"] }
 parking_lot = "0.12"
 csv = "1"
+qrcodegen-image = "1.5"
 
 [target.'cfg(any(target_os = "windows", target_os = "macos", target_os = "linux"))'.dependencies]
 keyring = { version = "3", optional = true, features = ["apple-native", "windows-native", "linux-native-sync-persistent", "crypto-rust"] }

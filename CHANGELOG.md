@@ -4,6 +4,12 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [
 
 ## [Non publié]
 
+### Phase 4 — Synchronisation chiffrée
+- Journal d'événements par enregistrement horodaté par HLC ; lots chiffrés XChaCha20-Poly1305 (clé Argon2id de la phrase secrète) poussés dans le dépôt privé.
+- Fusion automatique (dernier écrivain gagnant) avec convergence garantie ; conflits concurrents conservés et résolubles manuellement.
+- Ajout d'un appareil par QR code + phrase secrète ; révocation d'un appareil perdu et rotation de l'époque.
+- Synchronisation automatique au déverrouillage et périodiquement.
+
 ### Phase 3 — Suivi du code, déploiements et médias
 - Suivi GitHub périodique par requêtes conditionnelles (ETag), lecture des en-têtes de quota, réserve de 100 requêtes, intervalle adaptatif.
 - Notifications natives : nouveau push (VS Code, autre machine…), fin de CI/déploiement, release.
