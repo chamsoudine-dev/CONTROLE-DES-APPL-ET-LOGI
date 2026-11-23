@@ -20,6 +20,14 @@ tauri-build = { version = "2", features = [] }
 tauri = { version = "2", features = [] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-cc-core = { path = "../../crates/core" }
-cc-connectors = { path = "../../crates/connectors" }
+parking_lot = "0.12"
+tokio = { version = "1", features = ["time", "sync", "rt"] }
+time = { version = "0.3", features = ["formatting", "parsing"] }
 cc-license = { path = "../../crates/license" }
+cc-connectors = { path = "../../crates/connectors" }
+
+[target.'cfg(any(target_os = "windows", target_os = "macos", target_os = "linux"))'.dependencies]
+cc-core = { path = "../../crates/core", features = ["os-keyring"] }
+
+[target.'cfg(any(target_os = "android", target_os = "ios"))'.dependencies]
+cc-core = { path = "../../crates/core", default-features = false }

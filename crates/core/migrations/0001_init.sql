@@ -251,3 +251,10 @@ CREATE TABLE settings (
   key   TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
+
+-- Fallback (mobile / pas de trousseau) : valeur chiffrée XChaCha20-Poly1305
+-- avec une sous-clé dérivée de la phrase secrète, DANS la base SQLCipher (double chiffrement).
+CREATE TABLE secret_blobs (
+  id    TEXT PRIMARY KEY,
+  blob  BLOB NOT NULL
+);

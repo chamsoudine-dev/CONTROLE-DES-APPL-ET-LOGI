@@ -10,3 +10,18 @@ rust-version.workspace = true
 workspace = true
 
 [dependencies]
+pasetors = { version = "0.8", default-features = false, features = ["v4", "paserk", "std"] }
+ed25519-dalek = { version = "2", features = ["rand_core", "zeroize"] }
+rand_core = { version = "0.6", features = ["getrandom"] }
+hmac = "0.12"
+sha2 = "0.10"
+data-encoding = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+time = { version = "0.3", features = ["formatting", "parsing", "serde", "macros"] }
+uuid = { version = "1", features = ["v4"] }
+zeroize = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+proptest = "1"

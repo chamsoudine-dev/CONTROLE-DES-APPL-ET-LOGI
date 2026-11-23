@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-vault-complete-totp"
+description = "Enables the vault_complete_totp command without any pre-configured scope."
+commands.allow = ["vault_complete_totp"]
+
+[[permission]]
+identifier = "deny-vault-complete-totp"
+description = "Denies the vault_complete_totp command without any pre-configured scope."
+commands.deny = ["vault_complete_totp"]

@@ -6,7 +6,7 @@ exclude = ["fuzz"]
 [workspace.package]
 version = "1.0.0"
 edition = "2021"
-rust-version = "1.80"
+rust-version = "1.85"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/chamsoudine-dev/Logiciel-"
 authors = ["Control Center contributors"]
@@ -23,6 +23,10 @@ must_use_candidate = "allow"
 too_many_lines = "allow"
 doc_markdown = "allow"
 needless_pass_by_value = "allow"
+many_single_char_names = "allow"
+similar_names = "allow"
+struct_excessive_bools = "allow"
+unused_self = "allow"
 
 [profile.release]
 lto = true

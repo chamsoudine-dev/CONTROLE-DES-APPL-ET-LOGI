@@ -3,7 +3,7 @@
 | Phase | État | Détail |
 |-------|------|--------|
 | 0 — Conception | ✅ fait | docs/threat-model.md, architecture.md, schema.md, wireframes.md ; monorepo compilé ; CI |
-| 1 — Socle sécurisé | ⏳ à faire | |
+| 1 — Socle sécurisé | ✅ fait | assistant 5 étapes, vault Argon2id+SQLCipher, TOTP, PIN (5 essais), auto-lock, ré-auth, audit chaîné append-only, capabilities minimales + CSP stricte, test no_plaintext_on_disk, e2e premier lancement (scripts/e2e-first-launch.sh) |
 | 2 — Coffre & connecteurs | ⏳ à faire | |
 | 3 — Suivi code & médias | ⏳ à faire | |
 | 4 — Sync chiffrée | ⏳ à faire | |

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-license-key-backup"
+description = "Enables the license_key_backup command without any pre-configured scope."
+commands.allow = ["license_key_backup"]
+
+[[permission]]
+identifier = "deny-license-key-backup"
+description = "Denies the license_key_backup command without any pre-configured scope."
+commands.deny = ["license_key_backup"]
