@@ -801,6 +801,7 @@ dependencies = [
  "cc-connectors",
  "cc-core",
  "cc-license",
+ "data-encoding",
  "parking_lot",
  "serde",
  "serde_json",

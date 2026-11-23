@@ -77,6 +77,14 @@
     "allow-env-diff",
     "allow-env-push-prepare",
     "allow-vault-export",
-    "allow-vault-import"
+    "allow-vault-import",
+    "allow-tracking-poll-now",
+    "allow-repo-events",
+    "allow-github-rate",
+    "allow-alerts-list",
+    "allow-app-status",
+    "allow-media-list",
+    "allow-media-prepare",
+    "allow-media-upload"
   ]
 }
