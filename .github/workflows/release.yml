@@ -94,7 +94,7 @@ jobs:
           else
             echo "::warning::TAURI_UPDATER_PUBKEY / TAURI_SIGNING_PRIVATE_KEY absents : pas d'artefacts de mise à jour (les mises à jour resteront refusées, ce qui est sûr)."
           fi
-      - uses: tauri-apps/tauri-action@v0
+      - uses: tauri-apps/tauri-action@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
           # Mises à jour (minisign)
