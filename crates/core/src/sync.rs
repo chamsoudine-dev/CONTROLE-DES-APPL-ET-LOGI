@@ -574,16 +574,19 @@ pub fn build_batch(s: &Session, key: &SyncKey) -> Result<Option<Batch>> {
              WHERE pushed=0 AND device_id=?1 ORDER BY hlc LIMIT ?2",
         )?;
         let v = st
-            .query_map(params![s.device_id, BATCH_MAX], |r| {
-                Ok((
-                    r.get(0)?,
-                    r.get(1)?,
-                    r.get(2)?,
-                    r.get(3)?,
-                    r.get(4)?,
-                    r.get(5)?,
-                ))
-            })?
+            .query_map(
+                params![s.device_id, i64::try_from(BATCH_MAX).unwrap_or(500)],
+                |r| {
+                    Ok((
+                        r.get(0)?,
+                        r.get(1)?,
+                        r.get(2)?,
+                        r.get(3)?,
+                        r.get(4)?,
+                        r.get(5)?,
+                    ))
+                },
+            )?
             .collect::<std::result::Result<_, _>>()?;
         v
     };

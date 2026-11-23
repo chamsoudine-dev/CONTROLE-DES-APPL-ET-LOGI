@@ -187,10 +187,15 @@ mod tests {
 
     #[test]
     fn updater_is_safe() {
-        let conf: serde_json::Value = serde_json::from_str(include_str!("../tauri.conf.json")).unwrap();
+        let conf: serde_json::Value =
+            serde_json::from_str(include_str!("../tauri.conf.json")).unwrap();
         let u = &conf["plugins"]["updater"];
         assert_eq!(u["requireSignedVersion"], true, "anti-rétrogradation");
-        for flag in ["dangerousInsecureTransportProtocol", "dangerousAcceptInvalidCerts", "dangerousAcceptInvalidHostnames"] {
+        for flag in [
+            "dangerousInsecureTransportProtocol",
+            "dangerousAcceptInvalidCerts",
+            "dangerousAcceptInvalidHostnames",
+        ] {
             assert!(u.get(flag).is_none_or(|v| v == false), "{flag}");
         }
         for e in u["endpoints"].as_array().unwrap() {
