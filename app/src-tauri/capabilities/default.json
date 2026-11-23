@@ -109,6 +109,8 @@
     "allow-licenses-export-csv",
     "allow-revocations-info",
     "allow-revocations-setup-repo",
-    "allow-revocations-publish"
+    "allow-revocations-publish",
+    "allow-device-integrity",
+    "allow-app-version"
   ]
 }

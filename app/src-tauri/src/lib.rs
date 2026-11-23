@@ -41,8 +41,13 @@ fn spawn_autolock(app: tauri::AppHandle) {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
-        .plugin(tauri_plugin_notification::init())
+    let builder = tauri::Builder::default().plugin(tauri_plugin_notification::init());
+    // Mises à jour signées (minisign) : toute mise à jour non signée par la clé embarquée est refusée.
+    #[cfg(desktop)]
+    let builder = builder
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init());
+    builder
         .setup(|app| {
             let dir = app.path().app_data_dir()?;
             let vault = open_vault(dir).map_err(|e| e.to_string())?;
@@ -144,6 +149,8 @@ pub fn run() {
             cmd_licenses::revocations_info,
             cmd_licenses::revocations_setup_repo,
             cmd_licenses::revocations_publish,
+            cmd_vault::device_integrity,
+            cmd_vault::app_version,
         ])
         .run(tauri::generate_context!())
         .expect("erreur au lancement de Control Center");
@@ -175,6 +182,19 @@ mod tests {
         let raw = include_str!("../capabilities/default.json");
         for forbidden in ["shell:", "fs:", "http:", "process:allow-exit"] {
             assert!(!raw.contains(forbidden), "{forbidden}");
+        }
+    }
+
+    #[test]
+    fn updater_is_safe() {
+        let conf: serde_json::Value = serde_json::from_str(include_str!("../tauri.conf.json")).unwrap();
+        let u = &conf["plugins"]["updater"];
+        assert_eq!(u["requireSignedVersion"], true, "anti-rétrogradation");
+        for flag in ["dangerousInsecureTransportProtocol", "dangerousAcceptInvalidCerts", "dangerousAcceptInvalidHostnames"] {
+            assert!(u.get(flag).is_none_or(|v| v == false), "{flag}");
+        }
+        for e in u["endpoints"].as_array().unwrap() {
+            assert!(e.as_str().unwrap().starts_with("https://"));
         }
     }
 

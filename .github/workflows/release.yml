@@ -1,0 +1,199 @@
+name: Release
+
+# Une release est produite à chaque tag vX.Y.Z : installateurs Windows, macOS, Linux, Android,
+# archive du code source, et `latest.json` (mises à jour signées).
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag existant à (re)construire (ex. v1.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  TAG: ${{ github.event.inputs.tag || github.ref_name }}
+
+jobs:
+  create-release:
+    name: Créer la release (brouillon) + archive source
+    runs-on: ubuntu-22.04
+    outputs:
+      release_id: ${{ steps.rel.outputs.id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - name: Notes de version (extraites du CHANGELOG)
+        run: |
+          awk '/^## \[/{n++} n==1' CHANGELOG.md > notes.md || true
+          [ -s notes.md ] || echo "Voir CHANGELOG.md" > notes.md
+      - name: Brouillon de release
+        id: rel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --draft --title "Control Center $TAG" --notes-file notes.md
+          echo "id=$(gh api repos/${{ github.repository }}/releases --jq ".[] | select(.tag_name==\"$TAG\") | .id")" >> "$GITHUB_OUTPUT"
+      - name: Archive ZIP du code source complet
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git archive --format=zip --prefix="control-center-${TAG}/" -o "control-center-${TAG}-source.zip" HEAD
+          gh release upload "$TAG" "control-center-${TAG}-source.zip" --clobber
+
+  desktop:
+    name: Desktop (${{ matrix.name }})
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Linux (AppImage, deb)
+            os: ubuntu-22.04
+            args: ""
+          - name: Windows (msi, exe)
+            os: windows-latest
+            args: ""
+          - name: macOS (dmg universel)
+            os: macos-latest
+            args: "--target universal-apple-darwin"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - name: Dépendances Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev librsvg2-dev libayatana-appindicator3-dev libsoup-3.0-dev patchelf libdbus-1-dev
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ runner.os == 'macOS' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+        working-directory: app
+      - name: Clé publique de mise à jour (variable du dépôt)
+        shell: bash
+        env:
+          PUBKEY: ${{ vars.TAURI_UPDATER_PUBKEY }}
+          HAS_PRIVATE: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY != '' }}
+        run: |
+          if [ -n "$PUBKEY" ] && [ "$HAS_PRIVATE" = "true" ]; then
+            node -e "const f='app/src-tauri/tauri.conf.json';const c=require('./'+f);c.plugins.updater.pubkey=process.env.PUBKEY;c.bundle.createUpdaterArtifacts=true;require('fs').writeFileSync(f,JSON.stringify(c,null,2))"
+            echo "Mises à jour signées : activées"
+          else
+            echo "::warning::TAURI_UPDATER_PUBKEY / TAURI_SIGNING_PRIVATE_KEY absents : pas d'artefacts de mise à jour (les mises à jour resteront refusées, ce qui est sûr)."
+          fi
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          # Mises à jour (minisign)
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          # Signature de code macOS + notarisation (optionnel, voir docs/distribution.md)
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        with:
+          projectPath: app
+          releaseId: ${{ needs.create-release.outputs.release_id }}
+          tagName: ${{ env.TAG }}
+          includeUpdaterJson: true
+          args: ${{ matrix.args }}
+
+  android:
+    name: Android (APK)
+    needs: create-release
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+      - run: sdkmanager "platforms;android-34" "build-tools;34.0.0" "ndk;27.0.12077973"
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android,i686-linux-android
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+        working-directory: app
+      - name: Build APK
+        working-directory: app
+        env:
+          NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/27.0.12077973
+        run: npx tauri android build --apk --ci
+      - name: Signature de l'APK (keystore en secret) ou APK de test
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          APK=$(find app/src-tauri/gen/android/app/build/outputs/apk -name "*release*.apk" | head -1)
+          BT="$ANDROID_HOME/build-tools/34.0.0"
+          "$BT/zipalign" -f -p 4 "$APK" aligned.apk
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > release.jks
+            "$BT/apksigner" sign --ks release.jks --ks-pass env:KEYSTORE_PASSWORD --ks-key-alias "$KEY_ALIAS" --out "Control-Center_${TAG#v}_android.apk" aligned.apk
+          else
+            echo "::warning::Pas de keystore : APK signé avec une clé de test (installable, mais non publiable sur un store)."
+            keytool -genkeypair -keystore test.jks -storepass android -keypass android -alias test -keyalg RSA -keysize 2048 -validity 3650 -dname "CN=Control Center Test"
+            "$BT/apksigner" sign --ks test.jks --ks-pass pass:android --out "Control-Center_${TAG#v}_android-test-signed.apk" aligned.apk
+          fi
+          "$BT/apksigner" verify Control-Center_*.apk
+          gh release upload "$TAG" Control-Center_*.apk --clobber
+
+  ios:
+    name: iOS (préparation)
+    needs: create-release
+    if: vars.IOS_ENABLED == 'true'
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci && npx tauri ios init --ci && npx tauri ios build --export-method app-store-connect
+        working-directory: app
+        env:
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
+          APPLE_API_KEY_PATH: ${{ secrets.APPLE_API_KEY_PATH }}
+          APPLE_DEVELOPMENT_TEAM: ${{ secrets.APPLE_TEAM_ID }}
+
+  publish:
+    name: Publier la release
+    needs: [create-release, desktop, android]
+    runs-on: ubuntu-22.04
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit "$TAG" --draft=false --repo "${{ github.repository }}"

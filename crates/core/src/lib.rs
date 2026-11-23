@@ -16,6 +16,7 @@ pub mod licensing;
 pub mod policy;
 pub mod profile;
 pub mod secrets;
+pub mod security;
 pub mod sync;
 pub mod tracking;
 pub mod vault;

@@ -149,3 +149,15 @@ pub fn devices_list(state: State<'_, AppState>) -> CmdResult<Vec<Device>> {
     let d = profile::list_devices(&s.conn.lock())?;
     Ok(d)
 }
+
+/// Intégrité de l'appareil (root / jailbreak) — avertissement affiché sur mobile.
+#[tauri::command]
+pub fn device_integrity() -> cc_core::security::IntegrityReport {
+    cc_core::security::device_integrity()
+}
+
+/// Version de l'application.
+#[tauri::command]
+pub fn app_version(app: tauri::AppHandle) -> String {
+    app.package_info().version.to_string()
+}

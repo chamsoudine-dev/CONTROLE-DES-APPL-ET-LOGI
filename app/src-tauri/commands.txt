@@ -92,3 +92,5 @@ licenses_export_csv
 revocations_info
 revocations_setup_repo
 revocations_publish
+device_integrity
+app_version
