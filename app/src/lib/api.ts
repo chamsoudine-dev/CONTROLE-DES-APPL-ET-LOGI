@@ -96,3 +96,129 @@ export interface Device {
   revoked_at: string | null;
   last_seen: string | null;
 }
+
+// ---------- Phase 2 ----------
+export type AccessMode = "read_only" | "read_write" | "disabled";
+export type PolicyAction = "view" | "redeploy" | "rollback" | "release" | "edit_env" | "media" | "licenses" | "delete";
+export const ACTION_LABELS: Record<PolicyAction, string> = {
+  view: "Voir",
+  redeploy: "Redéployer",
+  rollback: "Rollback",
+  release: "Tag / release / workflow",
+  edit_env: "Modifier les variables",
+  media: "Médias",
+  licenses: "Licences",
+  delete: "Supprimer",
+};
+export type ProviderId = "github" | "vercel" | "supabase" | "firebase" | "netlify" | "cloudflare" | "cloudinary" | "custom";
+export interface App {
+  id: string;
+  name: string;
+  description: string;
+  icon: string | null;
+  urls: string[];
+  repo: string | null;
+  access_mode: AccessMode;
+  licensing_enabled: boolean;
+  created_at: string;
+  updated_at: string;
+}
+export interface NewApp {
+  name: string;
+  description: string;
+  icon: string | null;
+  urls: string[];
+  repo: string | null;
+  access_mode: AccessMode | null;
+  licensing_enabled: boolean;
+}
+export interface ConnectorRow {
+  id: string;
+  app_id: string;
+  provider: ProviderId;
+  category: string;
+  config: Record<string, unknown>;
+  secret_id: string | null;
+  last_test_at: string | null;
+  last_test_ok: boolean | null;
+  detected_permissions: DetectedPermission[];
+}
+export interface SecretMeta {
+  id: string;
+  app_id: string | null;
+  environment: string;
+  provider: string;
+  name: string;
+  masked: string;
+  fingerprint: string;
+  created_at: string;
+  updated_at: string;
+  last_used_at: string | null;
+  expires_at: string | null;
+  detected_permissions: DetectedPermission[] | null;
+  too_powerful: boolean;
+}
+export interface AppDetail {
+  app: App;
+  matrix: Partial<Record<PolicyAction, boolean>>;
+  connectors: ConnectorRow[];
+  secrets: SecretMeta[];
+}
+export interface FieldSpec {
+  key: string;
+  label: string;
+  required: boolean;
+  help: string;
+  options: string[];
+}
+export interface ProviderInfo {
+  provider: ProviderId;
+  label: string;
+  category: string;
+  fields: FieldSpec[];
+  secret_label: string;
+  secret_help: string;
+  permissions: PermissionSpec[];
+  media: boolean;
+}
+export interface Resource {
+  id: string;
+  kind: string;
+  name: string;
+  url: string | null;
+  status: string | null;
+  created_at: string | null;
+  extra: Record<string, unknown> | null;
+}
+export interface ActionSpec {
+  id: string;
+  label: string;
+  policy_action: PolicyAction;
+  description: string;
+}
+export interface Prepared {
+  token: string;
+  preview: string;
+  policy_action: PolicyAction;
+  destructive: boolean;
+}
+export interface EnvVar {
+  id: string;
+  app_id: string;
+  environment: string;
+  key: string;
+  value: string;
+  secret_id: string | null;
+  updated_at: string;
+  pushed: boolean;
+}
+export interface DiffLine {
+  key: string;
+  change: "added" | "changed" | "removed" | "unchanged";
+}
+export interface ImportReportT {
+  apps_created: number;
+  apps_skipped: string[];
+  secrets: number;
+  env_vars: number;
+}

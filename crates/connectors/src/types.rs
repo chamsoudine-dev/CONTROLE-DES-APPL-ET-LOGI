@@ -86,10 +86,26 @@ pub struct Resource {
 /// Action proposée par un connecteur.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub struct ActionSpec {
-    pub id: &'static str,
-    pub label: &'static str,
+    pub id: String,
+    pub label: String,
     pub policy_action: Action,
-    pub description: &'static str,
+    pub description: String,
+}
+
+impl ActionSpec {
+    pub fn new(
+        id: impl Into<String>,
+        label: impl Into<String>,
+        policy_action: Action,
+        description: impl Into<String>,
+    ) -> Self {
+        Self {
+            id: id.into(),
+            label: label.into(),
+            policy_action,
+            description: description.into(),
+        }
+    }
 }
 
 /// Fournisseurs pris en charge.

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-providers-catalog"
+description = "Enables the providers_catalog command without any pre-configured scope."
+commands.allow = ["providers_catalog"]
+
+[[permission]]
+identifier = "deny-providers-catalog"
+description = "Denies the providers_catalog command without any pre-configured scope."
+commands.deny = ["providers_catalog"]

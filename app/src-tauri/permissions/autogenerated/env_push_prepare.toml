@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-env-push-prepare"
+description = "Enables the env_push_prepare command without any pre-configured scope."
+commands.allow = ["env_push_prepare"]
+
+[[permission]]
+identifier = "deny-env-push-prepare"
+description = "Denies the env_push_prepare command without any pre-configured scope."
+commands.deny = ["env_push_prepare"]

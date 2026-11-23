@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-action-prepare"
+description = "Enables the action_prepare command without any pre-configured scope."
+commands.allow = ["action_prepare"]
+
+[[permission]]
+identifier = "deny-action-prepare"
+description = "Denies the action_prepare command without any pre-configured scope."
+commands.deny = ["action_prepare"]

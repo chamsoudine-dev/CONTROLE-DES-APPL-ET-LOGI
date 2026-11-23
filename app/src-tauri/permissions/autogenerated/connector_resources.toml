@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-connector-resources"
+description = "Enables the connector_resources command without any pre-configured scope."
+commands.allow = ["connector_resources"]
+
+[[permission]]
+identifier = "deny-connector-resources"
+description = "Denies the connector_resources command without any pre-configured scope."
+commands.deny = ["connector_resources"]

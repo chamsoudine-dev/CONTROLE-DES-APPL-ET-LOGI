@@ -4,6 +4,14 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [
 
 ## [Non publié]
 
+### Phase 2 — Coffre, applications et droits
+- Trait `Connector` (test, permissions lecture/écriture, santé, ressources, actions) et connecteurs GitHub, Vercel, Supabase (gestion / service_role), Firebase (compte de service, IAM réel), Netlify, Cloudflare Pages, Cloudinary (upload signé), personnalisé (Bearer, en-tête, Basic, OAuth2 client credentials).
+- Détection des clés trop puissantes et recommandations de portées minimales.
+- Onglet Environnements & Clés : secrets par appli/environnement, révéler (ré-auth, masquage 30 s), tester, rotation guidée, suppression ; variables d'environnement, aperçu des différences, envoi vers l'hébergeur (valeurs résolues uniquement côté Rust).
+- Import/export chiffré `.ccvault` (Argon2id + XChaCha20-Poly1305, AEAD vérifié avant parsing).
+- Assistant « Ajouter une application », fiche appli, matrice de droits, rôles owner/admin/viewer.
+- Exécuteur d'actions : politique → aperçu + jeton à usage unique → ré-auth si destructif → audit.
+
 ### Phase 1 — Socle sécurisé
 - Coffre : phrase secrète Argon2id (64 Mio, t=3) → clé SQLCipher ; vérificateur HMAC ; changement de phrase (rekey).
 - 2FA TOTP (QR code), PIN enveloppant la clé maîtresse dans le trousseau (5 essais), verrouillage auto, ré-authentification (2 min).
