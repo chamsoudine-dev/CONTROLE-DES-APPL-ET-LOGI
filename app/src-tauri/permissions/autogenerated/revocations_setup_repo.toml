@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-revocations-setup-repo"
+description = "Enables the revocations_setup_repo command without any pre-configured scope."
+commands.allow = ["revocations_setup_repo"]
+
+[[permission]]
+identifier = "deny-revocations-setup-repo"
+description = "Denies the revocations_setup_repo command without any pre-configured scope."
+commands.deny = ["revocations_setup_repo"]

@@ -4,6 +4,7 @@
 
 mod cmd_apps;
 mod cmd_github;
+mod cmd_licenses;
 mod cmd_sync;
 mod cmd_track;
 mod cmd_vault;
@@ -127,6 +128,22 @@ pub fn run() {
             cmd_sync::sync_pairing,
             cmd_sync::device_revoke,
             cmd_sync::sync_rotate_epoch,
+            cmd_licenses::products_list,
+            cmd_licenses::product_create,
+            cmd_licenses::customers_list,
+            cmd_licenses::customer_create,
+            cmd_licenses::payment_providers,
+            cmd_licenses::sales_list,
+            cmd_licenses::sale_record,
+            cmd_licenses::licenses_list,
+            cmd_licenses::license_create,
+            cmd_licenses::license_extend,
+            cmd_licenses::license_revoke,
+            cmd_licenses::license_find,
+            cmd_licenses::licenses_export_csv,
+            cmd_licenses::revocations_info,
+            cmd_licenses::revocations_setup_repo,
+            cmd_licenses::revocations_publish,
         ])
         .run(tauri::generate_context!())
         .expect("erreur au lancement de Control Center");

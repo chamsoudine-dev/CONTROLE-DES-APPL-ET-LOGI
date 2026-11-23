@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-license-extend"
+description = "Enables the license_extend command without any pre-configured scope."
+commands.allow = ["license_extend"]
+
+[[permission]]
+identifier = "deny-license-extend"
+description = "Denies the license_extend command without any pre-configured scope."
+commands.deny = ["license_extend"]

@@ -12,6 +12,7 @@ mod error;
 pub mod hlc;
 pub mod keys;
 pub mod license_keys;
+pub mod licensing;
 pub mod policy;
 pub mod profile;
 pub mod secrets;

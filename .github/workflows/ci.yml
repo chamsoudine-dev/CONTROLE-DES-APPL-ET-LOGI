@@ -80,3 +80,33 @@ jobs:
           cache-dependency-path: app/package-lock.json
       - run: cd app && npm ci
       - run: bash scripts/e2e-first-launch.sh
+
+  sdk-ts:
+    name: SDK TypeScript
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: sdk/ts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm test
+      - run: node examples/node-demo.mjs
+
+  sdk-go:
+    name: SDK Go
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: sdk/go
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - run: go vet ./...
+      - run: go test ./...
+      - run: go test ./ccl -run XXX -fuzz FuzzVerify -fuzztime 30s

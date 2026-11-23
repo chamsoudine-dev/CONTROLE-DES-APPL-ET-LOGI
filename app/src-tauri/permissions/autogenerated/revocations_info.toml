@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-revocations-info"
+description = "Enables the revocations_info command without any pre-configured scope."
+commands.allow = ["revocations_info"]
+
+[[permission]]
+identifier = "deny-revocations-info"
+description = "Denies the revocations_info command without any pre-configured scope."
+commands.deny = ["revocations_info"]

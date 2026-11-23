@@ -8,6 +8,7 @@ import { AddAppPage } from "./AddApp";
 import { AppDetailPage } from "./AppDetail";
 import { DashboardPage } from "./Dashboard";
 import { SyncPage } from "./Sync";
+import { LicensesPage } from "./Licenses";
 
 export type PageId = "dashboard" | "keys" | "add-app" | "app" | "licenses" | "sync" | "audit" | "settings";
 export interface PageProps {
@@ -28,7 +29,7 @@ export const pages: Record<PageId, React.ComponentType<PageProps>> = {
   keys: KeysPage,
   "add-app": AddAppPage,
   app: AppDetailPage,
-  licenses: Soon,
+  licenses: LicensesPage,
   sync: SyncPage,
   audit: () => <AuditCard />,
   settings: Soon,

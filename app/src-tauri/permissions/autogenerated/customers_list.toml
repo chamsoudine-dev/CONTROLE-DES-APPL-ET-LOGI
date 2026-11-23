@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-customers-list"
+description = "Enables the customers_list command without any pre-configured scope."
+commands.allow = ["customers_list"]
+
+[[permission]]
+identifier = "deny-customers-list"
+description = "Denies the customers_list command without any pre-configured scope."
+commands.deny = ["customers_list"]
