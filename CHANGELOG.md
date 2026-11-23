@@ -4,6 +4,12 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [
 
 ## [Non publié]
 
+### Phase 6 — Distribution, mises à jour et mobile
+- Workflow `release.yml` (tauri-action) à chaque tag `vX.Y.Z` : `.msi`/`.exe`, `.dmg` universel, `.AppImage`/`.deb`, `.apk` signé, archive ZIP du code source, `latest.json`.
+- Mises à jour signées (minisign) avec anti-rétrogradation (`requireSignedVersion`) ; clé publique injectée par la CI ; écran « Mises à jour » (notes, progression, redémarrage).
+- Documentation de la signature de code (Apple, Authenticode/Azure Trusted Signing, keystore Android) et des coûts.
+- Android : projet Tauri généré, interface mobile (barre de navigation inférieure), stockage chiffré en base, détection root ; iOS préparé (détection jailbreak, job conditionnel).
+
 ### Phase 5 — Licences sans serveur permanent
 - Produits (perpétuelle, abonnement, essai), clients, ventes ; couche `PaymentProvider` (saisie manuelle ; Mobile Money et fournisseur international prévus).
 - Licence = jeton PASETO v4.public signé Ed25519 (produit, client, dates, options, `kid`) + clé lisible `XXXX-XXXX-XXXX-XXXX`.

@@ -1,7 +1,8 @@
 // Coque de l'application : barre latérale (desktop) / barre inférieure (mobile) + page active.
 import * as React from "react";
 import { KeyRound, LayoutDashboard, Lock, Plus, RefreshCw, ScrollText, Settings as SettingsIcon, Ticket } from "lucide-react";
-import type { Profile } from "@/lib/api";
+import { call, type Profile } from "@/lib/api";
+import { Alert } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { Settings } from "./Settings";
 import { pages, type PageId } from "./registry";
@@ -25,6 +26,10 @@ export function Shell({ profile, onLock, onChanged }: { profile: Profile | null;
   const [appId, setAppId] = React.useState<string | undefined>();
   const nav: Nav = { go: (p, a) => { setPage(p); setAppId(a); } };
   const Page = pages[page];
+  const [integrity, setIntegrity] = React.useState<{ compromised: boolean; indicators: string[] } | null>(null);
+  React.useEffect(() => {
+    call<{ compromised: boolean; indicators: string[] }>("device_integrity").then(setIntegrity).catch(() => undefined);
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
@@ -52,6 +57,11 @@ export function Shell({ profile, onLock, onChanged }: { profile: Profile | null;
         </button>
       </aside>
       <main className="flex-1 overflow-auto p-4 pb-20 sm:p-6 md:pb-6">
+        {integrity?.compromised && (
+          <div className="mb-4">
+            <Alert tone="destructive">Appareil rooté / jailbreaké détecté : le trousseau du système ne protège plus correctement vos secrets. Évitez d'y stocker des clés de production.</Alert>
+          </div>
+        )}
         {page === "settings" ? <Settings onChanged={onChanged} /> : <Page nav={nav} appId={appId} />}
       </main>
       <nav className="fixed inset-x-0 bottom-0 z-40 flex justify-around border-t bg-card py-1 md:hidden">

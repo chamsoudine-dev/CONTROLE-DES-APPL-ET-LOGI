@@ -50,6 +50,27 @@
     ],
     "category": "DeveloperTool",
     "shortDescription": "Centre de contrôle local-first pour vos applications",
-    "longDescription": "Gérez applications, clés API, déploiements et licences depuis votre appareil, chiffré de bout en bout."
+    "longDescription": "Gérez applications, clés API, déploiements et licences depuis votre appareil, chiffré de bout en bout.",
+    "createUpdaterArtifacts": false,
+    "android": {
+      "minSdkVersion": 26
+    },
+    "iOS": {
+      "minimumSystemVersion": "15.0"
+    },
+    "publisher": "Control Center",
+    "copyright": "© Control Center contributors"
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/chamsoudine-dev/Logiciel-/releases/latest/download/latest.json"
+      ],
+      "pubkey": "",
+      "requireSignedVersion": true,
+      "windows": {
+        "installMode": "passive"
+      }
+    }
   }
 }

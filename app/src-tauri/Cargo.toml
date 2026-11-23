@@ -5,6 +5,7 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
+publish = false
 
 [lints]
 workspace = true
@@ -30,6 +31,8 @@ cc-connectors = { path = "../../crates/connectors" }
 
 [target.'cfg(any(target_os = "windows", target_os = "macos", target_os = "linux"))'.dependencies]
 cc-core = { path = "../../crates/core", features = ["os-keyring"] }
+tauri-plugin-updater = "2"
+tauri-plugin-process = "2"
 
 [target.'cfg(any(target_os = "android", target_os = "ios"))'.dependencies]
 cc-core = { path = "../../crates/core", default-features = false }

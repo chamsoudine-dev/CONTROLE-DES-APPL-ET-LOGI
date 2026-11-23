@@ -5,6 +5,7 @@ import { formatDate } from "@/lib/utils";
 import { Alert, Badge, Button, Card, CardTitle, Field, Input, Select, Textarea } from "@/components/ui";
 import { useReauth } from "@/components/Reauth";
 import { GithubStep } from "./Onboarding";
+import { UpdateCard } from "@/components/UpdateCard";
 
 export function Settings({ onChanged }: { onChanged: () => void }) {
   const [profile, setProfile] = React.useState<Profile | null>(null);
@@ -53,6 +54,7 @@ export function Settings({ onChanged }: { onChanged: () => void }) {
         </details>
       </Card>
       <LicenseKeyCard act={act} />
+      <UpdateCard />
       <AuditCard />
     </div>
   );
