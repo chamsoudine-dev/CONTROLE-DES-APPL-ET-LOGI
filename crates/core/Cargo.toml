@@ -18,7 +18,7 @@ os-keyring = ["dep:keyring"]
 [dependencies]
 cc-license = { path = "../license" }
 rusqlite = { version = "0.43", features = ["bundled-sqlcipher-vendored-openssl"] }
-argon2 = { version = "0.5", features = ["zeroize"] }
+argon2 = { version = "0.6", features = ["zeroize"] }
 chacha20poly1305 = "0.10"
 hmac = "0.12"
 sha2 = "0.10"
