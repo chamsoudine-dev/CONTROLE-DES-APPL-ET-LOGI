@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-payment-providers"
+description = "Enables the payment_providers command without any pre-configured scope."
+commands.allow = ["payment_providers"]
+
+[[permission]]
+identifier = "deny-payment-providers"
+description = "Denies the payment_providers command without any pre-configured scope."
+commands.deny = ["payment_providers"]

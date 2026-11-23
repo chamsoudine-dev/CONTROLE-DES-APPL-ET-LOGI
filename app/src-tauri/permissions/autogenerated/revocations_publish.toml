@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-revocations-publish"
+description = "Enables the revocations_publish command without any pre-configured scope."
+commands.allow = ["revocations_publish"]
+
+[[permission]]
+identifier = "deny-revocations-publish"
+description = "Denies the revocations_publish command without any pre-configured scope."
+commands.deny = ["revocations_publish"]

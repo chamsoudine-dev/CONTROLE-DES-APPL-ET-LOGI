@@ -4,6 +4,15 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [
 
 ## [Non publié]
 
+### Phase 5 — Licences sans serveur permanent
+- Produits (perpétuelle, abonnement, essai), clients, ventes ; couche `PaymentProvider` (saisie manuelle ; Mobile Money et fournisseur international prévus).
+- Licence = jeton PASETO v4.public signé Ed25519 (produit, client, dates, options, `kid`) + clé lisible `XXXX-XXXX-XXXX-XXXX`.
+- Révocation : liste signée numérotée publiée automatiquement dans un dépôt GitHub public ; anti-rollback et délai de grâce hors ligne côté client.
+- Prolongation, export CSV (protégé contre l'injection de formules).
+- SDK TypeScript, Rust et Go + exemple d'intégration ; jeux de test partagés générés par la crate Rust.
+- Fuzzing (cargo-fuzz) : licences, listes de révocation, import `.ccvault`, réponses d'API.
+- Corrigé : la vérification des dates utilisait l'horloge système de `pasetors` au lieu de l'horloge injectée.
+
 ### Phase 4 — Synchronisation chiffrée
 - Journal d'événements par enregistrement horodaté par HLC ; lots chiffrés XChaCha20-Poly1305 (clé Argon2id de la phrase secrète) poussés dans le dépôt privé.
 - Fusion automatique (dernier écrivain gagnant) avec convergence garantie ; conflits concurrents conservés et résolubles manuellement.

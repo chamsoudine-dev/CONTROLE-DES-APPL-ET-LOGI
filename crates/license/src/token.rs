@@ -1,10 +1,11 @@
 use crate::{fmt_time, parse_time, LicenseError, PublicKey, Result, SigningKeyPair};
-use pasetors::claims::{Claims, ClaimsValidationRules};
+use pasetors::claims::Claims;
 use pasetors::footer::Footer;
 use pasetors::paserk::Id;
 use pasetors::token::UntrustedToken;
 use pasetors::version4::V4;
 use pasetors::{public, Public};
+
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use time::OffsetDateTime;
@@ -167,16 +168,20 @@ impl Verifier {
             .and_then(serde_json::Value::as_str)
             .ok_or(LicenseError::UnknownKey)?;
         let key = self.keys.get(kid).ok_or(LicenseError::UnknownKey)?;
-        let mut rules = ClaimsValidationRules::new();
-        rules.disable_valid_at(); // les dates sont contrôlées avec l'horloge injectée
-        rules.allow_non_expiring();
-        rules.validate_issuer_with(ISSUER);
-        let trusted = public::verify(&key.paseto(), &untrusted, &rules, Some(&footer), None)
-            .map_err(|_| LicenseError::BadSignature)?;
-        let claims = trusted
-            .payload_claims()
-            .ok_or(LicenseError::Malformed)?
-            .clone();
+        // Vérification de signature seule (bas niveau) : les dates sont contrôlées ensuite avec
+        // l'horloge injectée — la validation intégrée de pasetors utilise l'horloge système.
+        let footer_bytes = footer.to_string().map_err(|_| LicenseError::UnknownKey)?;
+        let trusted = pasetors::version4::PublicToken::verify(
+            &key.paseto(),
+            &untrusted,
+            Some(footer_bytes.as_bytes()),
+            None,
+        )
+        .map_err(|_| LicenseError::BadSignature)?;
+        let claims = Claims::from_string(trusted.payload()).map_err(|_| LicenseError::Malformed)?;
+        if claims.get_claim("iss").and_then(serde_json::Value::as_str) != Some(ISSUER) {
+            return Err(LicenseError::WrongType);
+        }
         match claims.get_claim("typ").and_then(serde_json::Value::as_str) {
             Some(t) if t == expected_typ => Ok(claims),
             _ => Err(LicenseError::WrongType),
@@ -398,6 +403,20 @@ mod tests {
         assert_eq!(
             v.verify(&"v4.public.".repeat(3000), now()).unwrap_err(),
             LicenseError::Malformed
+        );
+    }
+
+    #[test]
+    fn dates_use_injected_clock_not_system_clock() {
+        // Licence de 2020 : expirée selon l'horloge système, valide à la date injectée.
+        let past = OffsetDateTime::from_unix_timestamp(1_580_000_000).unwrap();
+        let kp = SigningKeyPair::generate();
+        let t = issue(&kp, &sample(past)).unwrap();
+        let v = Verifier::new([kp.public_key().clone()]);
+        assert!(v.verify(&t, past + Duration::days(2)).is_ok());
+        assert_eq!(
+            v.verify(&t, OffsetDateTime::now_utc()).unwrap_err(),
+            LicenseError::Expired
         );
     }
 

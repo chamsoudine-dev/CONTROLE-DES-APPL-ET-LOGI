@@ -818,6 +818,8 @@ name = "control-center-license"
 version = "1.0.0"
 dependencies = [
  "cc-license",
+ "serde_json",
+ "time",
 ]
 
 [[package]]

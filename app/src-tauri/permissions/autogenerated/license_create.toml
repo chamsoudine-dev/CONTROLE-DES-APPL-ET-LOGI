@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-license-create"
+description = "Enables the license_create command without any pre-configured scope."
+commands.allow = ["license_create"]
+
+[[permission]]
+identifier = "deny-license-create"
+description = "Denies the license_create command without any pre-configured scope."
+commands.deny = ["license_create"]

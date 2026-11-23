@@ -13,3 +13,7 @@ lcov.info
 app/src-tauri/gen/schemas
 *.ccvault
 .DS_Store
+
+# SDK
+sdk/ts/node_modules
+sdk/ts/dist

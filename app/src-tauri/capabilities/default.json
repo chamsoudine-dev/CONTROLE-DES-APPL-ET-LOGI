@@ -93,6 +93,22 @@
     "allow-sync-resolve",
     "allow-sync-pairing",
     "allow-device-revoke",
-    "allow-sync-rotate-epoch"
+    "allow-sync-rotate-epoch",
+    "allow-products-list",
+    "allow-product-create",
+    "allow-customers-list",
+    "allow-customer-create",
+    "allow-payment-providers",
+    "allow-sales-list",
+    "allow-sale-record",
+    "allow-licenses-list",
+    "allow-license-create",
+    "allow-license-extend",
+    "allow-license-revoke",
+    "allow-license-find",
+    "allow-licenses-export-csv",
+    "allow-revocations-info",
+    "allow-revocations-setup-repo",
+    "allow-revocations-publish"
   ]
 }

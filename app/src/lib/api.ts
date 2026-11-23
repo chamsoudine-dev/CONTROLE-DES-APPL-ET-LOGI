@@ -299,3 +299,54 @@ export interface SyncConflict {
   discarded: Record<string, unknown> | null;
   created_at: string;
 }
+
+// ---------- Phase 5 ----------
+export type LicenseKind = "perpetual" | "subscription" | "trial";
+export interface Product {
+  id: string;
+  app_id: string | null;
+  name: string;
+  kind: LicenseKind;
+  duration_days: number | null;
+  price_cents: number;
+  currency: string;
+  features: string[];
+}
+export interface Customer {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  notes: string;
+}
+export interface Sale {
+  id: string;
+  product_id: string;
+  customer_id: string;
+  amount_cents: number;
+  currency: string;
+  provider: string;
+  reference: string | null;
+  status: string;
+  created_at: string;
+}
+export interface License {
+  id: string;
+  product_id: string;
+  product_name: string;
+  customer_id: string;
+  customer_name: string;
+  sale_id: string | null;
+  readable_key: string;
+  token: string;
+  kid: string;
+  issued_at: string;
+  expires_at: string | null;
+  status: "active" | "revoked" | "expired";
+}
+export interface RevocationInfo {
+  status: { last_seq: number | null; last_published_at: string | null; unpublished: number };
+  repo: string | null;
+  list_url: string | null;
+  public_keys: string[];
+}

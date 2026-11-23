@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-customer-create"
+description = "Enables the customer_create command without any pre-configured scope."
+commands.allow = ["customer_create"]
+
+[[permission]]
+identifier = "deny-customer-create"
+description = "Denies the customer_create command without any pre-configured scope."
+commands.deny = ["customer_create"]
