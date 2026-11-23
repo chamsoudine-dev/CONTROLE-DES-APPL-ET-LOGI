@@ -17,3 +17,4 @@ app/src-tauri/gen/schemas
 # SDK
 sdk/ts/node_modules
 sdk/ts/dist
+*.tsbuildinfo

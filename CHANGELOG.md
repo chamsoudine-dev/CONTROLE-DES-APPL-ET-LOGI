@@ -2,7 +2,15 @@
 
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
-## [Non publié]
+## [1.0.0] — 2026-11-23
+
+Première version complète.
+
+### Phase 7 — Qualité finale et livraison
+- CI bloquante : fmt, clippy pedantic, tests, e2e, cargo-audit, cargo-deny, npm audit, CodeQL, fuzzing, couverture ≥ 80 % ; Dependabot.
+- Tests UI (Vitest + Testing Library) ; couverture des crates 96,7 % des lignes.
+- Sécurité : mise à jour de SQLite/SQLCipher (`rusqlite` 0.43, RUSTSEC-2026-0459) ; revue finale menace par menace.
+- Documentation : guide utilisateur, guide développeur, plan de réponse aux incidents, rapport final.
 
 ### Phase 6 — Distribution, mises à jour et mobile
 - Workflow `release.yml` (tauri-action) à chaque tag `vX.Y.Z` : `.msi`/`.exe`, `.dmg` universel, `.AppImage`/`.deb`, `.apk` signé, archive ZIP du code source, `latest.json`.

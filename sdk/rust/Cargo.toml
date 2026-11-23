@@ -10,7 +10,7 @@ rust-version.workspace = true
 workspace = true
 
 [dependencies]
-cc-license = { path = "../../crates/license" }
+cc-license = { path = "../../crates/license", version = "1.0.0" }
 time = "0.3"
 
 [dev-dependencies]

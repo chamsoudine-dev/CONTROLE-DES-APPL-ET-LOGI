@@ -49,8 +49,16 @@ pub fn evaluate(platform: &'static str, exists: impl Fn(&str) -> bool) -> Integr
         "ios" => IOS_JAILBREAK_PATHS,
         _ => &[],
     };
-    let indicators: Vec<String> = paths.iter().filter(|p| exists(p)).map(|p| (*p).to_owned()).collect();
-    IntegrityReport { platform, compromised: !indicators.is_empty(), indicators }
+    let indicators: Vec<String> = paths
+        .iter()
+        .filter(|p| exists(p))
+        .map(|p| (*p).to_owned())
+        .collect();
+    IntegrityReport {
+        platform,
+        compromised: !indicators.is_empty(),
+        indicators,
+    }
 }
 
 /// Contrôle de l'appareil courant.
@@ -74,7 +82,9 @@ mod tests {
 
     #[test]
     fn android_and_ios_indicators() {
-        let r = evaluate("android", |p| p == "/system/xbin/su" || p == "/data/adb/magisk");
+        let r = evaluate("android", |p| {
+            p == "/system/xbin/su" || p == "/data/adb/magisk"
+        });
         assert!(r.compromised);
         assert_eq!(r.indicators.len(), 2);
         assert!(!evaluate("android", |_| false).compromised);
