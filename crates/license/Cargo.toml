@@ -11,7 +11,7 @@ workspace = true
 
 [dependencies]
 pasetors = { version = "0.8", default-features = false, features = ["v4", "paserk", "std"] }
-ed25519-dalek = { version = "2", features = ["rand_core", "zeroize"] }
+ed25519-dalek = { version = "3", features = ["rand_core", "zeroize"] }
 rand_core = { version = "0.6", features = ["getrandom"] }
 hmac = "0.12"
 sha2 = "0.10"
