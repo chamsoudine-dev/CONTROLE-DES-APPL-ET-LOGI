@@ -2,6 +2,7 @@
 //! `commands.txt` et autorisées par `capabilities/default.json`.
 #![forbid(unsafe_code)]
 
+mod cmd_apps;
 mod cmd_github;
 mod cmd_vault;
 mod state;
@@ -38,6 +39,7 @@ fn spawn_autolock(app: tauri::AppHandle) {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_notification::init())
         .setup(|app| {
             let dir = app.path().app_data_dir()?;
             let vault = open_vault(dir).map_err(|e| e.to_string())?;
@@ -76,6 +78,36 @@ pub fn run() {
             cmd_github::license_key_status,
             cmd_github::license_key_backup,
             cmd_github::license_key_restore,
+            cmd_apps::providers_catalog,
+            cmd_apps::apps_list,
+            cmd_apps::app_get,
+            cmd_apps::app_create,
+            cmd_apps::app_update,
+            cmd_apps::app_set_mode,
+            cmd_apps::app_set_permission,
+            cmd_apps::app_delete,
+            cmd_apps::connector_test_draft,
+            cmd_apps::connector_add,
+            cmd_apps::connector_test,
+            cmd_apps::connector_remove,
+            cmd_apps::connector_resources,
+            cmd_apps::connector_actions,
+            cmd_apps::action_prepare,
+            cmd_apps::action_execute,
+            cmd_apps::secrets_list,
+            cmd_apps::secret_add,
+            cmd_apps::secret_update,
+            cmd_apps::secret_rotate,
+            cmd_apps::secret_reveal,
+            cmd_apps::secret_delete,
+            cmd_apps::secret_test,
+            cmd_apps::env_list,
+            cmd_apps::env_set,
+            cmd_apps::env_remove,
+            cmd_apps::env_diff,
+            cmd_apps::env_push_prepare,
+            cmd_apps::vault_export,
+            cmd_apps::vault_import,
         ])
         .run(tauri::generate_context!())
         .expect("erreur au lancement de Control Center");

@@ -2,9 +2,12 @@
 //! politique d'accès, applications, secrets, synchronisation, licences.
 #![forbid(unsafe_code)]
 
+pub mod apps;
 pub mod audit;
+pub mod ccvault;
 pub mod crypto;
 pub mod db;
+pub mod envvars;
 mod error;
 pub mod keys;
 pub mod license_keys;

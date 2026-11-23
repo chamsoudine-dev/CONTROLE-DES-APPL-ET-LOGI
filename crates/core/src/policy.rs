@@ -240,6 +240,11 @@ impl Confirmations {
         Ok(p)
     }
 
+    /// Action associée à un jeton encore valide, sans le consommer.
+    pub fn peek(&self, token: &str) -> Option<Action> {
+        self.pending.lock().get(token).map(|p| p.action)
+    }
+
     pub fn consume(&self, token: &str) -> Result<PendingAction> {
         self.consume_at(token, Instant::now())
     }

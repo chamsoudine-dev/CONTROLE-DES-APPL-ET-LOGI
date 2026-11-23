@@ -90,7 +90,8 @@ CREATE TABLE env_vars (
   key         TEXT NOT NULL,
   value       TEXT NOT NULL,        -- valeur non secrète (sinon : lien vers un secret)
   secret_id   TEXT REFERENCES secrets_meta(id) ON DELETE SET NULL,
-  remote_value_hash TEXT,           -- dernier état connu chez l'hébergeur
+  remote_value_hash TEXT,           -- empreinte de la valeur envoyée à l'hébergeur
+  pushed_at   TEXT,
   updated_at  TEXT NOT NULL,
   UNIQUE(app_id, environment, key)
 );

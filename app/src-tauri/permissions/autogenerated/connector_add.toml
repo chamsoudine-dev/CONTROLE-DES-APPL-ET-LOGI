@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-connector-add"
+description = "Enables the connector_add command without any pre-configured scope."
+commands.allow = ["connector_add"]
+
+[[permission]]
+identifier = "deny-connector-add"
+description = "Denies the connector_add command without any pre-configured scope."
+commands.deny = ["connector_add"]

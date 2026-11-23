@@ -599,24 +599,24 @@ impl Connector for GitHub {
 
     fn actions(&self) -> Vec<ActionSpec> {
         vec![
-            ActionSpec {
-                id: "workflow_dispatch",
-                label: "Déclencher un workflow",
-                policy_action: Action::Release,
-                description: "Lance un workflow GitHub Actions (workflow, ref)",
-            },
-            ActionSpec {
-                id: "create_release",
-                label: "Créer un tag et une release",
-                policy_action: Action::Release,
-                description: "Crée le tag et la release (tag, target, name, body)",
-            },
-            ActionSpec {
-                id: "rerun_workflow",
-                label: "Relancer une exécution",
-                policy_action: Action::Redeploy,
-                description: "Relance une exécution GitHub Actions (run_id)",
-            },
+            ActionSpec::new(
+                "workflow_dispatch",
+                "Déclencher un workflow",
+                Action::Release,
+                "Lance un workflow GitHub Actions (workflow, ref)",
+            ),
+            ActionSpec::new(
+                "create_release",
+                "Créer un tag et une release",
+                Action::Release,
+                "Crée le tag et la release (tag, target, name, body)",
+            ),
+            ActionSpec::new(
+                "rerun_workflow",
+                "Relancer une exécution",
+                Action::Redeploy,
+                "Relance une exécution GitHub Actions (run_id)",
+            ),
         ]
     }
 

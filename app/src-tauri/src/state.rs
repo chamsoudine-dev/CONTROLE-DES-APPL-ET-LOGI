@@ -1,16 +1,19 @@
 //! État partagé de l'application.
-
+use cc_core::policy::Confirmations;
 use cc_core::vault::Vault;
 use parking_lot::Mutex;
 
 pub struct AppState {
     pub vault: Mutex<Vault>,
+    /// Jetons de confirmation des écritures (aperçu → confirmation, usage unique).
+    pub confirmations: Confirmations,
 }
 
 impl AppState {
     pub fn new(vault: Vault) -> Self {
         Self {
             vault: Mutex::new(vault),
+            confirmations: Confirmations::default(),
         }
     }
 }

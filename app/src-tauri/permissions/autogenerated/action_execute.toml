@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-action-execute"
+description = "Enables the action_execute command without any pre-configured scope."
+commands.allow = ["action_execute"]
+
+[[permission]]
+identifier = "deny-action-execute"
+description = "Denies the action_execute command without any pre-configured scope."
+commands.deny = ["action_execute"]

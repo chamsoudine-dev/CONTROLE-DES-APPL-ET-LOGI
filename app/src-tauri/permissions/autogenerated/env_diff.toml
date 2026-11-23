@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-env-diff"
+description = "Enables the env_diff command without any pre-configured scope."
+commands.allow = ["env_diff"]
+
+[[permission]]
+identifier = "deny-env-diff"
+description = "Denies the env_diff command without any pre-configured scope."
+commands.deny = ["env_diff"]

@@ -5,9 +5,19 @@
   "windows": [
     "main"
   ],
+  "platforms": [
+    "linux",
+    "macOS",
+    "windows",
+    "android",
+    "iOS"
+  ],
   "permissions": [
     "core:event:allow-listen",
     "core:event:allow-unlisten",
+    "notification:allow-is-permission-granted",
+    "notification:allow-request-permission",
+    "notification:allow-notify",
     "allow-vault-status",
     "allow-vault-setup",
     "allow-vault-unlock",
@@ -37,6 +47,36 @@
     "allow-license-key-generate",
     "allow-license-key-status",
     "allow-license-key-backup",
-    "allow-license-key-restore"
+    "allow-license-key-restore",
+    "allow-providers-catalog",
+    "allow-apps-list",
+    "allow-app-get",
+    "allow-app-create",
+    "allow-app-update",
+    "allow-app-set-mode",
+    "allow-app-set-permission",
+    "allow-app-delete",
+    "allow-connector-test-draft",
+    "allow-connector-add",
+    "allow-connector-test",
+    "allow-connector-remove",
+    "allow-connector-resources",
+    "allow-connector-actions",
+    "allow-action-prepare",
+    "allow-action-execute",
+    "allow-secrets-list",
+    "allow-secret-add",
+    "allow-secret-update",
+    "allow-secret-rotate",
+    "allow-secret-reveal",
+    "allow-secret-delete",
+    "allow-secret-test",
+    "allow-env-list",
+    "allow-env-set",
+    "allow-env-remove",
+    "allow-env-diff",
+    "allow-env-push-prepare",
+    "allow-vault-export",
+    "allow-vault-import"
   ]
 }
