@@ -222,3 +222,57 @@ export interface ImportReportT {
   secrets: number;
   env_vars: number;
 }
+
+// ---------- Phase 3 ----------
+export interface RepoEvent {
+  id: string;
+  repo: string;
+  kind: "commit" | "branch" | "pull_request" | "workflow_run" | "release";
+  title: string;
+  author: string | null;
+  ref_name: string | null;
+  status: string | null;
+  url: string | null;
+  occurred_at: string;
+}
+export interface RateState {
+  limit: number;
+  remaining: number;
+  reset: number;
+}
+export interface Health {
+  online: boolean;
+  latency_ms: number;
+  detail: string;
+}
+export interface AppStatus {
+  urls: [string, Health][];
+  online: boolean | null;
+  latest_deployment: [string, Resource] | null;
+}
+export interface AlertItem {
+  level: "warning" | "error";
+  app_id: string | null;
+  message: string;
+}
+export interface MediaAsset {
+  id: string;
+  app_id: string;
+  provider: string;
+  path: string;
+  url: string;
+  bytes: number;
+  width: number | null;
+  height: number | null;
+  created_at: string;
+}
+export interface PollSummary {
+  repos: number;
+  requests: number;
+  not_modified: number;
+  new_events: number;
+  notifications: number;
+  rate: RateState | null;
+  next_interval_secs: number;
+  errors: string[];
+}

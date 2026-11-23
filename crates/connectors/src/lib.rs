@@ -18,6 +18,7 @@ pub mod media;
 pub mod netlify;
 pub mod registry;
 pub mod supabase;
+pub mod tracker;
 pub mod types;
 pub mod vercel;
 

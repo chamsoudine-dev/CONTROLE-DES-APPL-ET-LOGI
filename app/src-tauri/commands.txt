@@ -60,3 +60,11 @@ env_diff
 env_push_prepare
 vault_export
 vault_import
+tracking_poll_now
+repo_events
+github_rate
+alerts_list
+app_status
+media_list
+media_prepare
+media_upload

@@ -7,6 +7,8 @@ pub struct AppState {
     pub vault: Mutex<Vault>,
     /// Jetons de confirmation des écritures (aperçu → confirmation, usage unique).
     pub confirmations: Confirmations,
+    /// Dernier état connu du quota GitHub.
+    pub rate: Mutex<Option<cc_connectors::github::RateState>>,
 }
 
 impl AppState {
@@ -14,6 +16,7 @@ impl AppState {
         Self {
             vault: Mutex::new(vault),
             confirmations: Confirmations::default(),
+            rate: Mutex::new(None),
         }
     }
 }

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-media-upload"
+description = "Enables the media_upload command without any pre-configured scope."
+commands.allow = ["media_upload"]
+
+[[permission]]
+identifier = "deny-media-upload"
+description = "Denies the media_upload command without any pre-configured scope."
+commands.deny = ["media_upload"]

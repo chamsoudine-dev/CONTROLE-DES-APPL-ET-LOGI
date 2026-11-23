@@ -4,6 +4,14 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [
 
 ## [Non publié]
 
+### Phase 3 — Suivi du code, déploiements et médias
+- Suivi GitHub périodique par requêtes conditionnelles (ETag), lecture des en-têtes de quota, réserve de 100 requêtes, intervalle adaptatif.
+- Notifications natives : nouveau push (VS Code, autre machine…), fin de CI/déploiement, release.
+- Actions : redéployer, rollback, déclencher un workflow, créer tag + release, relancer une exécution, envoyer les variables.
+- Tableau de bord : santé des URL, dernier déploiement, alertes (clés expirées/trop puissantes, CI en échec), quota GitHub.
+- Fiche appli : dépôt, déploiements, services, médias, droits.
+- Médias : conversion WebP (redimensionnement ≤ 2048 px) puis envoi vers Supabase Storage, Firebase Storage ou Cloudinary ; URL copiable.
+
 ### Phase 2 — Coffre, applications et droits
 - Trait `Connector` (test, permissions lecture/écriture, santé, ressources, actions) et connecteurs GitHub, Vercel, Supabase (gestion / service_role), Firebase (compte de service, IAM réel), Netlify, Cloudflare Pages, Cloudinary (upload signé), personnalisé (Bearer, en-tête, Basic, OAuth2 client credentials).
 - Détection des clés trop puissantes et recommandations de portées minimales.

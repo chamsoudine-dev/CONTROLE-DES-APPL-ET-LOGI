@@ -4,6 +4,7 @@
 
 mod cmd_apps;
 mod cmd_github;
+mod cmd_track;
 mod cmd_vault;
 mod state;
 
@@ -45,6 +46,7 @@ pub fn run() {
             let vault = open_vault(dir).map_err(|e| e.to_string())?;
             app.manage(AppState::new(vault));
             spawn_autolock(app.handle().clone());
+            cmd_track::spawn_poller(app.handle().clone());
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -108,6 +110,14 @@ pub fn run() {
             cmd_apps::env_push_prepare,
             cmd_apps::vault_export,
             cmd_apps::vault_import,
+            cmd_track::tracking_poll_now,
+            cmd_track::repo_events,
+            cmd_track::github_rate,
+            cmd_track::alerts_list,
+            cmd_track::app_status,
+            cmd_track::media_list,
+            cmd_track::media_prepare,
+            cmd_track::media_upload,
         ])
         .run(tauri::generate_context!())
         .expect("erreur au lancement de Control Center");

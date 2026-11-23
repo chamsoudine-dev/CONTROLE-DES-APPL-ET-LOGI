@@ -14,6 +14,7 @@ pub mod license_keys;
 pub mod policy;
 pub mod profile;
 pub mod secrets;
+pub mod tracking;
 pub mod vault;
 
 pub use error::{CoreError, Result};

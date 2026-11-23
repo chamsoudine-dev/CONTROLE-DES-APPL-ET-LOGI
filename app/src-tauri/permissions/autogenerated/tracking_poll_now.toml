@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-tracking-poll-now"
+description = "Enables the tracking_poll_now command without any pre-configured scope."
+commands.allow = ["tracking_poll_now"]
+
+[[permission]]
+identifier = "deny-tracking-poll-now"
+description = "Denies the tracking_poll_now command without any pre-configured scope."
+commands.deny = ["tracking_poll_now"]
