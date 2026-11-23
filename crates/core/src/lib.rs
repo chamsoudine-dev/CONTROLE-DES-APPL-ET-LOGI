@@ -9,11 +9,13 @@ pub mod crypto;
 pub mod db;
 pub mod envvars;
 mod error;
+pub mod hlc;
 pub mod keys;
 pub mod license_keys;
 pub mod policy;
 pub mod profile;
 pub mod secrets;
+pub mod sync;
 pub mod tracking;
 pub mod vault;
 

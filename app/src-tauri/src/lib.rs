@@ -4,6 +4,7 @@
 
 mod cmd_apps;
 mod cmd_github;
+mod cmd_sync;
 mod cmd_track;
 mod cmd_vault;
 mod state;
@@ -118,6 +119,14 @@ pub fn run() {
             cmd_track::media_list,
             cmd_track::media_prepare,
             cmd_track::media_upload,
+            cmd_sync::sync_status,
+            cmd_sync::sync_setup,
+            cmd_sync::sync_now,
+            cmd_sync::sync_conflicts,
+            cmd_sync::sync_resolve,
+            cmd_sync::sync_pairing,
+            cmd_sync::device_revoke,
+            cmd_sync::sync_rotate_epoch,
         ])
         .run(tauri::generate_context!())
         .expect("erreur au lancement de Control Center");

@@ -85,6 +85,14 @@
     "allow-app-status",
     "allow-media-list",
     "allow-media-prepare",
-    "allow-media-upload"
+    "allow-media-upload",
+    "allow-sync-status",
+    "allow-sync-setup",
+    "allow-sync-now",
+    "allow-sync-conflicts",
+    "allow-sync-resolve",
+    "allow-sync-pairing",
+    "allow-device-revoke",
+    "allow-sync-rotate-epoch"
   ]
 }

@@ -276,3 +276,26 @@ export interface PollSummary {
   next_interval_secs: number;
   errors: string[];
 }
+
+// ---------- Phase 4 ----------
+export interface SyncStatus {
+  repo: string | null;
+  configured: boolean;
+  epoch: number | null;
+  conflicts: number;
+  last_sync: string | null;
+  devices: Device[];
+}
+export interface SyncReport {
+  captured: number;
+  pulled: { applied: number; skipped: number; conflicts: number };
+  pushed_batches: number;
+}
+export interface SyncConflict {
+  id: string;
+  entity: string;
+  entity_id: string;
+  current: Record<string, unknown> | null;
+  discarded: Record<string, unknown> | null;
+  created_at: string;
+}
