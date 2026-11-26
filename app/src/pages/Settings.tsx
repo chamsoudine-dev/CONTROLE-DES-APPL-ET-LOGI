@@ -1,8 +1,8 @@
 // Paramètres : sécurité, GitHub, licences, journal d'audit.
 import * as React from "react";
-import { call, errorMessage, type AuditEntry, type Profile, type TotpSetup, type VaultStatus } from "@/lib/api";
-import { formatDate } from "@/lib/utils";
-import { Alert, Badge, Button, Card, CardTitle, Field, Input, Select, Textarea } from "@/components/ui";
+import { Search } from "lucide-react";
+import { call, errorMessage, type AuditEntry, type Profile, type TotpSetup, type VaultStatus, type AuditFilter } from "@/lib/api";
+import { Alert, Badge, Button, Card, CardTitle, Field, Input, Select, Textarea, Skeleton } from "@/components/ui";
 import { useReauth } from "@/components/Reauth";
 import { GithubStep } from "./Onboarding";
 import { UpdateCard } from "@/components/UpdateCard";
@@ -162,38 +162,100 @@ function LicenseKeyCard({ act }: { act: Act }) {
 export function AuditCard() {
   const [entries, setEntries] = React.useState<AuditEntry[]>([]);
   const [chain, setChain] = React.useState<string>("");
+  const [search, setSearch] = React.useState("");
+  const [actorFilter, setActorFilter] = React.useState("");
+  const [actionFilter, setActionFilter] = React.useState("");
+  const [page, setPage] = React.useState(0);
+  const pageSize = 50;
+
   const load = React.useCallback(async () => {
-    setEntries(await call<AuditEntry[]>("audit_list", { limit: 100, offset: 0 }));
+    const filter: AuditFilter = {};
+    if (search) filter.action = search;
+    if (actorFilter) filter.actor = actorFilter;
+    if (actionFilter) filter.action = actionFilter;
+
+    try {
+      const result = await call<AuditEntry[]>("audit_list", {
+        limit: pageSize,
+        offset: page * pageSize,
+        ...filter,
+      });
+      setEntries(result);
+    } catch (e) {
+      errorMessage(e);
+    }
     try {
       const r = await call<{ entries: number }>("audit_verify");
       setChain(`✓ chaîne intègre (${r.entries} entrées)`);
     } catch (e) {
       setChain(`✗ ${errorMessage(e)}`);
     }
-  }, []);
+  }, [search, actorFilter, actionFilter, page]);
+
   React.useEffect(() => {
-    load().catch(() => undefined);
+    load();
   }, [load]);
+
   return (
     <Card>
-      <CardTitle actions={<Button size="sm" variant="outline" onClick={load}>Vérifier</Button>}>Journal d'audit</CardTitle>
+      <CardTitle>Journal d'audit</CardTitle>
       <p className="mb-3 text-sm">{chain}</p>
+
+      {/* Filtres de recherche */}
+      <div className="flex flex-wrap gap-2 mb-3">
+        <div className="relative flex-1">
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Rechercher une action..."
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); }}
+            className="pl-8 text-sm"
+          />
+        </div>
+        <Input
+          type="text"
+          placeholder="Acteur..."
+          value={actorFilter}
+          onChange={(e) => { setActorFilter(e.target.value); }}
+          className="text-sm"
+        />
+        <Input
+          type="text"
+          placeholder="Type d'action..."
+          value={actionFilter}
+          onChange={(e) => { setActionFilter(e.target.value); }}
+          className="text-sm"
+        />
+      </div>
+
       <div className="max-h-96 overflow-auto">
-        <table className="w-full text-xs">
-          <tbody>
-            {entries.map((e) => (
-              <tr key={e.seq} className="border-t">
-                <td className="py-1 pr-2 text-muted-foreground">#{e.seq}</td>
-                <td className="pr-2">{formatDate(e.ts)}</td>
-                <td className="pr-2 font-mono">{e.action}</td>
-                <td className="max-w-[12rem] truncate pr-2">{e.target}</td>
-                <td>
-                  <Badge tone={e.outcome === "ok" ? "success" : "destructive"}>{e.outcome}</Badge>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {entries.length === 0 ? (
+          <Skeleton className="h-8 w-full mb-2" />
+        ) : (
+          <table className="w-full text-xs">
+            <tbody>
+              {entries.map((e) => (
+                <tr key={e.seq} className="border-t">
+                  <td className="py-1 pr-2 text-muted-foreground font-mono text-xs">#{e.seq}</td>
+                  <td className="pr-2">{e.ts}</td>
+                  <td className="pr-2 font-mono text-xs">{e.action}</td>
+                  <td className="max-w-[12rem] truncate pr-2">{e.target}</td>
+                  <td>
+                    <Badge tone={e.outcome === "ok" ? "success" : "destructive"}>{e.outcome}</Badge>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        <div className="flex justify-center gap-2 mt-3">
+          <Button size="sm" variant="outline" onClick={() => setPage((p) => Math.max(0, p - 1))}>Page précédente</Button>
+          <span className="text-sm text-muted-foreground self-center">
+            Page {page + 1}
+          </span>
+          <Button size="sm" variant="outline" onClick={() => setPage((p) => p + 1)}>Page suivante</Button>
+        </div>
       </div>
     </Card>
   );

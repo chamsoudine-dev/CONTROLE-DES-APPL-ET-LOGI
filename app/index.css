@@ -1,0 +1,122 @@
+/* Control Center v2.0.0 - Design Tokens & Base Styles */
+
+/* ============ CSS Variables (tokens centralisés) ============ */
+:root {
+  /* Couleurs principales */
+  --color-background: #0a0a0f;
+  --color-foreground: #e8e8ec;
+  --color-muted: #6b6b80;
+  --color-muted-foreground: #8888a0;
+  --color-primary: #c8ff00;
+  --color-primary-foreground: #0a0a0f;
+  --color-success: #34d399;
+  --color-warning: #f59e0b;
+  --color-destructive: #f87171;
+  --color-card: #12121a;
+  --color-card-foreground: #e8e8ec;
+
+  /* Rayons de coin */
+  --radius-lg: 0.6rem;
+  --radius-md: 0.45rem;
+  --radius-sm: 0.3rem;
+
+  /* Ombres */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+
+  /* Espacements */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+
+  /* Transition */
+  --transition-fast: 150ms ease-out;
+  --transition-normal: 200ms ease-out;
+}
+
+/[data-theme="dark"] {
+  --color-background: #0a0a0f;
+  --color-foreground: #e8e8ec;
+  --color-muted: #6b6b80;
+  --color-muted-foreground: #8888a0;
+  --color-primary: #c8ff00;
+  --color-primary-foreground: #0a0a0f;
+  --color-success: #34d399;
+  --color-warning: #f59e0b;
+  --color-destructive: #f87171;
+  --color-card: #12121a;
+  --color-card-foreground: #e8e8ec;
+}
+
+[data-theme="light"] {
+  --color-background: #f8f9fa;
+  --color-foreground: #1e293b;
+  --color-muted: #64748b;
+  --color-muted-foreground: #94a3b8;
+  --color-primary: #0891b2;
+  --color-primary-foreground: #ffffff;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-destructive: #ef4444;
+  --color-card: #ffffff;
+  --color-card-foreground: #1e293b;
+}
+
+/* ============ Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+}
+
+/* ============ Body & base ============ */
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============ Focus visible ============ */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ============ Reduced motion transitions ============ */
+@supports (transition-behavior: allow-discrete) {
+  @media (prefers-reduced-motion: no-preference) {
+    * {
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+}
+
+/* Hide scrollbar but keep functionality */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}

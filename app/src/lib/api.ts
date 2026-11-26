@@ -224,6 +224,38 @@ export interface ImportReportT {
 }
 
 // ---------- Phase 3 ----------
+export interface NotificationItem {
+  id: string;
+  type: "ci_failure" | "key_expiring" | "license_expiring" | "new_release" | "app_offline";
+  title: string;
+  message: string;
+  level: "warning" | "error";
+  app_id: string;
+  timestamp: string;
+  action_url?: string;
+  action_label?: string;
+}
+
+export interface LicenseFilter {
+  kind?: "perpetual" | "subscription" | "trial";
+  status?: "active" | "revoked" | "expired";
+  environment?: string;
+}
+
+export interface AuditFilter {
+  actor?: string;
+  action?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface NotificationSummary {
+  total: number;
+  byLevel: Record<string, number>;
+  byType: Record<string, number>;
+  upcomingExpirations: number;
+}
+
 export interface RepoEvent {
   id: string;
   repo: string;
